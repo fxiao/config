@@ -19,8 +19,8 @@ class CreateConfigTable extends Migration
 
         Schema::connection($connection)->create($table, function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
-            $table->string('value');
+            $table->string('name', 191)->unique();
+            $table->string('value', 191);
             $table->text('description')->nullable();
             $table->timestamps();
         });
