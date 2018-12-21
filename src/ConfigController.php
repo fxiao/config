@@ -21,8 +21,8 @@ class ConfigController
     public function index(Content $content)
     {
         return $content
-            ->header('Config')
-            ->description('list')
+            ->header('全局配置')
+            ->description('列表')
             ->body($this->grid());
     }
 
@@ -37,8 +37,8 @@ class ConfigController
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Config')
-            ->description('edit')
+            ->header('全局配置')
+            ->description('编辑')
             ->body($this->form()->edit($id));
     }
 
@@ -52,16 +52,16 @@ class ConfigController
     public function create(Content $content)
     {
         return $content
-            ->header('Config')
-            ->description('create')
+            ->header('全局配置')
+            ->description('创建')
             ->body($this->form());
     }
 
     public function show($id, Content $content)
     {
         return $content
-            ->header('Config')
-            ->description('detail')
+            ->header('全局配置')
+            ->description('查看')
             ->body(Admin::show(ConfigModel::findOrFail($id), function (Show $show) {
                 $show->id();
                 $show->name();
@@ -77,14 +77,14 @@ class ConfigController
         $grid = new Grid(new ConfigModel());
 
         $grid->id('ID')->sortable();
-        $grid->name()->display(function ($name) {
+        $grid->name('名称')->display(function ($name) {
             return "<a tabindex=\"0\" class=\"btn btn-xs btn-twitter\" role=\"button\" data-toggle=\"popover\" data-html=true title=\"Usage\" data-content=\"<code>config('$name');</code>\">$name</a>";
         });
-        $grid->value();
-        $grid->description();
+        $grid->value('值');
+        $grid->description('说明');
 
-        $grid->created_at();
-        $grid->updated_at();
+        $grid->created_at('创建时间');
+        $grid->updated_at('更新时间');
 
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
@@ -100,12 +100,12 @@ class ConfigController
         $form = new Form(new ConfigModel());
 
         $form->display('id', 'ID');
-        $form->text('name')->rules('required');
-        $form->textarea('value')->rules('required');
-        $form->textarea('description');
+        $form->text('name', '名称')->rules('required');
+        $form->textarea('value', '值')->rules('required');
+        $form->textarea('description', '说明');
 
-        $form->display('created_at');
-        $form->display('updated_at');
+        $form->display('created_at', '创建时间');
+        $form->display('updated_at', '更新时间');
 
         return $form;
     }
